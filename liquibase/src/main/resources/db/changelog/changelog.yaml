@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - preConditions:
+      dbms:
+        type: mysql
+  - changeSet:
+      id: setup
+      author: liquibase
+      changes:
+        - sqlFile:
+            path: create.sql
+            relativeToChangelogFile: true

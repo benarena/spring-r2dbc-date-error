@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>spring-r2dbc-date-error</artifactId>
+        <groupId>com.example</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>liquibase</artifactId>
+
+<properties>
+    <liquibase.version>3.8.9</liquibase.version>
+    <liquibase.schema>users</liquibase.schema>
+    <liquibase.driverName>com.mysql.cj.jdbc.Driver</liquibase.driverName>
+    <liquibase.username>root</liquibase.username>
+    <liquibase.password>root</liquibase.password>
+    <liquibase.url>jdbc:mysql://localhost:3306/${liquibase.schema}?createDatabaseIfNotExist=true&amp;useSSL=false&amp;serverTimezone=UTC</liquibase.url>
+    <liquibase.changelog.file>src/main/resources/db/changelog/changelog.yaml</liquibase.changelog.file>
+</properties>
+
+<dependencies>
+    <dependency>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-core</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+</dependencies>
+
+<build>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+        </resource>
+    </resources>
+    <plugins>
+        <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>liquibase.integration.commandline.Main</mainClass>
+                    </manifest>
+                </archive>
+                <descriptorRefs>
+                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-maven-plugin</artifactId>
+            <version>${liquibase.version}</version>
+            <configuration>
+                <changeLogFile>${liquibase.changelog.file}</changeLogFile>
+                <driver>${liquibase.driverName}</driver>
+                <url>${liquibase.url}</url>
+                <username>${liquibase.username}</username>
+                <password>${liquibase.password}</password>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+</project>

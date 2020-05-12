@@ -1,0 +1,10 @@
+spring:
+  r2dbc:
+    url: r2dbc:mysql://127.0.0.1:3306/users?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: root
+    password: root
+  liquibase:
+    enabled: false
+logging:
+  level:
+    org.springframework.data.r2dbc: DEBUG
