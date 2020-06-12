@@ -17,7 +17,25 @@ This relates to [issue 207](https://github.com/spring-projects/spring-data-r2dbc
 `mvn test`
 
 ## Test result
-2020-05-12 12:00:01.173 DEBUG 43047 --- [actor-tcp-nio-1] o.s.d.r2dbc.core.DefaultDatabaseClient   : Executing SQL statement [INSERT INTO users (created) VALUES (?)]
+**Updated with Spring Boot 2.3.1**
+
+`2020-06-12 14:07:58.098 DEBUG 37970 --- [actor-tcp-nio-1] o.s.d.r2dbc.core.DefaultDatabaseClient   : Executing SQL statement [INSERT INTO users (created) VALUES (?)]`
+
+```
+	Suppressed: java.lang.IllegalArgumentException: Cannot encode value of type 'class java.time.Instant'
+		at dev.miku.r2dbc.mysql.codec.DefaultCodecs.encode(DefaultCodecs.java:182)
+		Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: 
+Error has been observed at the following site(s):
+	|_ checkpoint ⇢ SQL "INSERT INTO users (created) VALUES (?)" [DatabaseClient]
+Stack trace:
+			at dev.miku.r2dbc.mysql.codec.DefaultCodecs.encode(DefaultCodecs.java:182)
+			at dev.miku.r2dbc.mysql.ParametrizedStatementSupport.bind(ParametrizedStatementSupport.java:74)
+			at dev.miku.r2dbc.mysql.ParametrizedStatementSupport.bind(ParametrizedStatementSupport.java:41)
+```
+
+**Spring Boot 2.3.RC1**
+
+`2020-05-12 12:00:01.173 DEBUG 43047 --- [actor-tcp-nio-1] o.s.d.r2dbc.core.DefaultDatabaseClient   : Executing SQL statement [INSERT INTO users (created) VALUES (?)]`
 
 ```
 java.lang.AssertionError: expectation "consumeNextWith" failed (expected: onNext(); actual: onError(java.lang.IllegalArgumentException: Cannot encode value of type 'class java.util.Date'))
