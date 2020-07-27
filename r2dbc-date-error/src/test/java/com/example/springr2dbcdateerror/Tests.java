@@ -10,23 +10,28 @@ import reactor.test.StepVerifier;
 
 import java.time.Instant;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class Tests {
+class Tests {
 
 	@Autowired
 	private UserCrudRepository repository;
 
 	@Test
-	public void saveUser() {
+	void saveUser() {
 		User user = new User();
 		user.setCreated(Instant.now());
 
 		repository.save(user)
 			.as(StepVerifier::create)
-			.consumeNextWith(result -> assertNotNull(result.getId()))
+			.consumeNextWith(result -> {
+				assertNotNull(result.getId());
+				assertEquals(user.getCreated(), result.getCreated());
+				assertEquals(user.getCreated(), Instant.EPOCH);
+			})
 			.verifyComplete();
 	}
 }
