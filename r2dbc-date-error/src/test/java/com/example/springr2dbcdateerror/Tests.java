@@ -22,7 +22,7 @@ class Tests {
 
 	@Test
 	void saveUser() {
-		User user = new User();
+		final User user = new User();
 		user.setCreated(Instant.now());
 
 		repository.save(user)
@@ -30,7 +30,6 @@ class Tests {
 			.consumeNextWith(result -> {
 				assertNotNull(result.getId());
 				assertEquals(user.getCreated(), result.getCreated());
-				assertEquals(user.getCreated(), Instant.EPOCH);
 			})
 			.verifyComplete();
 	}
